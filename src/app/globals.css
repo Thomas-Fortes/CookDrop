@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Palette CookDrop */
+  --color-lin:       #F2EBE0;
+  --color-parchemin: #FAF5ED;
+  --color-bois:      #2C1F14;
+  --color-sauge:     #4A6741;
+  --color-sable:     #C4A882;
+  --color-terre:     #D4633A;
+  --color-encre:     #2C1F14;
+  --color-muted:     #8A7060;
+  --color-creme:     #F5ECD8;
+
+  /* Fonts */
+  --font-display: var(--font-playfair);
+  --font-body:    var(--font-lora);
+  --font-ui:      var(--font-lato);
+  --font-mono:    var(--font-dm-mono);
+}
+
+:root {
+  --background: #F2EBE0;
+  --foreground: #2C1F14;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-lora), Georgia, serif;
+}
+
+/* Steam animation */
+@keyframes steam {
+  0%   { opacity: 0;   transform: translateY(0)   scaleX(1); }
+  30%  { opacity: 0.6; }
+  100% { opacity: 0;   transform: translateY(-20px) scaleX(1.1); }
+}
+
+@keyframes dropIn {
+  0%   { opacity: 0; transform: translateY(-40px); }
+  60%  { transform: translateY(6px); }
+  80%  { transform: translateY(-3px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ingredientSlide {
+  from { opacity: 0; transform: translateX(-12px) rotate(-3deg); }
+  to   { opacity: 1; transform: translateX(0) rotate(0deg); }
+}
+
+@keyframes pulse-bar {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+.steam-path { animation: steam 2.5s ease-in infinite; }
+.steam-path:nth-child(2) { animation-delay: 0.8s; }
+.steam-path:nth-child(3) { animation-delay: 1.6s; }
+
+.drop-card-1 { animation: dropIn 0.6s cubic-bezier(0.34, 1.2, 0.64, 1) both; }
+.drop-card-2 { animation: dropIn 0.6s cubic-bezier(0.34, 1.2, 0.64, 1) 0.2s both; }
+
+.ingredient-item {
+  animation: ingredientSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* Card isometric tilt */
+.recipe-card-tilt-1 { transform: rotate(-1.2deg); }
+.recipe-card-tilt-2 { transform: rotate(1.5deg); }
