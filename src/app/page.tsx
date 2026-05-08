@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: 'Deux recettes simples tombent chaque matin. Choisissez, cuisinez, mangez bien.',
 }
 
-export const revalidate = 3600
+export const revalidate = 60
 
 export default async function HomePage() {
   const drop = await getTodayDrop()
