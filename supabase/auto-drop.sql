@@ -7,6 +7,8 @@
 -- Utilise RETURNS SETOF daily_drops pour éviter le conflit de nom
 -- entre le paramètre de retour "date" et la colonne "date" de la table.
 
+drop function if exists get_or_create_daily_drop(date);
+
 create or replace function get_or_create_daily_drop(p_date date default current_date)
 returns setof daily_drops
 language plpgsql
