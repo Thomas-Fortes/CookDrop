@@ -9,10 +9,12 @@ export async function getTodayDrop(): Promise<DailyDrop | null> {
     const { createClient } = await import('./supabase-server')
     const supabase = await createClient()
     const today = new Date().toISOString().split('T')[0]
+    const { data: drop } = await supabase.rpc('get_or_create_daily_drop', { p_date: today }).single()
+    if (!drop) return null
     const { data } = await supabase
       .from('daily_drops')
       .select('*, recipe_1:recipes!recipe_1_id(*, ingredients(*), steps(*)), recipe_2:recipes!recipe_2_id(*, ingredients(*), steps(*))')
-      .eq('date', today)
+      .eq('id', drop.id)
       .single()
     return data
   } catch { return MOCK_TODAY_DROP }
