@@ -3,15 +3,12 @@
 --
 -- Cette fonction crée automatiquement le drop du jour s'il n'existe pas.
 -- SECURITY DEFINER = s'exécute avec les droits postgres, bypass le RLS.
+--
+-- Utilise RETURNS SETOF daily_drops pour éviter le conflit de nom
+-- entre le paramètre de retour "date" et la colonne "date" de la table.
 
 create or replace function get_or_create_daily_drop(p_date date default current_date)
-returns table (
-  id           uuid,
-  date         date,
-  recipe_1_id  uuid,
-  recipe_2_id  uuid,
-  created_at   timestamptz
-)
+returns setof daily_drops
 language plpgsql
 security definer
 set search_path = public
@@ -24,7 +21,7 @@ begin
   -- 1. Si le drop existe déjà → le retourner directement
   select * into v_drop from daily_drops d where d.date = p_date;
   if found then
-    return query select v_drop.id, v_drop.date, v_drop.recipe_1_id, v_drop.recipe_2_id, v_drop.created_at;
+    return next v_drop;
     return;
   end if;
 
@@ -77,7 +74,7 @@ begin
     select * into v_drop from daily_drops d where d.date = p_date;
   end if;
 
-  return query select v_drop.id, v_drop.date, v_drop.recipe_1_id, v_drop.recipe_2_id, v_drop.created_at;
+  return next v_drop;
 end;
 $$;
 
